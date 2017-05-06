@@ -1,0 +1,6 @@
+﻿Public Class Detalles
+	
+    Private Sub Detalles_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    End Sub
+    
+End Class
