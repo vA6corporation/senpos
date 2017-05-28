@@ -155,7 +155,7 @@ Partial Class Caja
         '
         'Column4
         '
-        Me.Column4.HeaderText = "PRECIO"
+        Me.Column4.HeaderText = "PRECIO U."
         Me.Column4.MaxInputLength = 6
         Me.Column4.Name = "Column4"
         Me.Column4.ReadOnly = True
@@ -254,7 +254,7 @@ Partial Class Caja
         '
         Me.btIngresar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btIngresar.Font = New System.Drawing.Font("Segoe UI Semibold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btIngresar.Location = New System.Drawing.Point(293, 541)
+        Me.btIngresar.Location = New System.Drawing.Point(152, 540)
         Me.btIngresar.Name = "btIngresar"
         Me.btIngresar.Size = New System.Drawing.Size(133, 41)
         Me.btIngresar.TabIndex = 3
@@ -299,11 +299,11 @@ Partial Class Caja
         '
         Me.btCobrar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btCobrar.Font = New System.Drawing.Font("Segoe UI Semibold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btCobrar.Location = New System.Drawing.Point(152, 541)
+        Me.btCobrar.Location = New System.Drawing.Point(291, 540)
         Me.btCobrar.Name = "btCobrar"
         Me.btCobrar.Size = New System.Drawing.Size(135, 41)
         Me.btCobrar.TabIndex = 4
-        Me.btCobrar.Text = "COBRAR"
+        Me.btCobrar.Text = "VENDER"
         Me.btCobrar.UseVisualStyleBackColor = True
         '
         'Label8
@@ -573,7 +573,6 @@ Partial Class Caja
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange
         Me.ClientSize = New System.Drawing.Size(1302, 598)
         Me.ControlBox = False
         Me.Controls.Add(Me.tbBuscar)
@@ -600,9 +599,9 @@ Partial Class Caja
         Me.Controls.Add(Me.tbNombre)
         Me.Controls.Add(Me.tbCodigo)
         Me.Controls.Add(Me.DataGridView)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Caja"
+        Me.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.DataGridView, System.ComponentModel.ISupportInitialize).EndInit()
@@ -649,11 +648,11 @@ Partial Class Caja
     Friend WithEvents clmStock As DataGridViewTextBoxColumn
     Friend WithEvents label As Label
     Friend WithEvents tbLaboratorio As TextBox
+    Friend WithEvents tbBuscar As TextBox
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
     Friend WithEvents Column7 As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
-    Friend WithEvents tbBuscar As TextBox
 End Class

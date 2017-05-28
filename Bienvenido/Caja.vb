@@ -23,13 +23,12 @@
         End Try
         tbCodigo.Select()
         tbFecha.Text = fecha
-        tbUsuario.Text = Bienvenido.mainUsuario
+        tbUsuario.Text = Bienvenido.usuarioLogin
         getLista()
         btCobrar.Enabled = False
-
     End Sub
 
-    Private Sub Obtener()
+    Private Sub ObtenerProducto()
         If tbCodigo.Text() <> "" Then
             ObtenerStatus = getRegistro(tbCodigo.Text)
             If ObtenerStatus = True Then
@@ -42,7 +41,6 @@
         Else
             tbCodigo.Select()
         End If
-
     End Sub
 
     Private Sub getLista()
@@ -79,11 +77,8 @@
     End Sub
 
     Private Sub setGrid()
-        ' matris(7, row) = matris(4, row) - tbCantidad.Text
-        'If matris(7, row) <= (-1) Then
-        'MessageBox.Show("Este producto se a agotado o exede la cantidad de stock", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        'Else
         Try
+            MsgBox("ingresamos al grid")
             matris(6, row) = matris(4, row) * tbCantidad.Text 'sub total
             DataGridView.Rows.Add(matris(1, row), matris(2, row), matris(3, row), tbCantidad.Text, matris(4, row), matris(6, row))
             tbCodigo.Select()
@@ -93,7 +88,22 @@
         Catch ex As Exception
             MessageBox.Show("Procedimiento inadecuado, revise campos vacios", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try
-        'End If
+    End Sub
+
+    Private Sub setRegistro()
+        row -= 1
+        For z = 0 To row
+            Try
+                MsgBox("ingresamos una venta")
+                comm.CommandText = "INSERT INTO regVenta (id,nombre,referencia,laboratorio,precio,cantidad,montocobrado,fecha,usuario) VALUES (" & matris(0, z) &
+                    ",'" & matris(1, z) & "','" & matris(2, z) & "','" & matris(3, z) & "'," & matris(4, z) & "," & matris(7, z) & "," & matris(6, z) & ",'" & fecha & "','" & Bienvenido.usuarioLogin & "')"
+                comm.ExecuteNonQuery()
+                comm.CommandText = "UPDATE regStock SET stock=" & matris(8, z) & " WHERE id =" & matris(0, z)
+                comm.ExecuteNonQuery()
+            Catch ex As Exception
+                MsgBox(Err.Description, MsgBoxStyle.Exclamation, "Biblioteca")
+            End Try
+        Next
     End Sub
 
     Private Function getRegistro(codigo As Integer)
@@ -121,36 +131,15 @@
         Return b
     End Function
 
-    Private Sub setRegistro()
-        row -= 1
-        For z = 0 To row
-            Try
-                comm.CommandText = "INSERT INTO regVenta (id,nombre,referencia,laboratorio,precio,cantidad,montocobrado,fecha,usuario) VALUES (" & matris(0, z) &
-                    ",'" & matris(1, z) & "','" & matris(2, z) & "','" & matris(3, z) & "'," & matris(4, z) & "," & matris(7, z) & "," & matris(6, z) & ",'" & fecha & "','" & Bienvenido.mainUsuario & "')"
-                comm.ExecuteNonQuery()
-                comm.CommandText = "UPDATE regStock SET stock=" & matris(8, z) & " WHERE id =" & matris(0, z)
-                comm.ExecuteNonQuery()
-            Catch ex As Exception
-                MsgBox(Err.Description, MsgBoxStyle.Exclamation, "Biblioteca")
-            End Try
-        Next
-    End Sub
-
-    Private Sub btObtener_Click(sender As Object, e As EventArgs)
-        Obtener()
-    End Sub
-
     Private Sub btSalir_Click(sender As Object, e As EventArgs) Handles btSalir.Click
         Me.Close()
-        conex.Close()
-
     End Sub
 
     Private Sub btMas_Click(sender As Object, e As EventArgs) Handles btMas.Click
         tbCantidad.Text += 1
     End Sub
 
-    Private Sub btCobrar_Click(sender As Object, e As EventArgs) Handles btCobrar.Click
+    Private Sub btVender_Click(sender As Object, e As EventArgs) Handles btCobrar.Click
         Try
             If ingresoStatus = True Then
                 setRegistro()
@@ -268,8 +257,6 @@
                     row += 1
                     btCobrar.Enabled = True
                 End If
-                'MessageBox.Show("Seleccione un producto", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                'tbCodigo.Select()
             End If
 
         Catch ex As Exception
@@ -292,18 +279,18 @@
         If tbCodigo.Text = "" Then
             clearVenta()
         Else
-            Obtener()
+            ObtenerProducto()
         End If
     End Sub
 
-    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles tbBuscar.TextChanged
+    Private Sub tbBuscar_TextChanged(sender As Object, e As EventArgs) Handles tbBuscar.TextChanged
 
     End Sub
-    
-End Class    
 
-
-	'Public Sub updateStock()
-    '   comm.CommandText = "UPDATE regStock SET stock=" & matris(7, z) & " WHERE id =" & matris(0, row)
-    '   comm.ExecuteNonQuery()
-    'End Sub
+    Private Sub Caja_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        'MessageBox.Show("nos bemos")
+        Me.Hide()
+        conex.Close()
+        e.Cancel = True
+    End Sub
+End Class

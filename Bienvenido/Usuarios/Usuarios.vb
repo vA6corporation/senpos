@@ -1,22 +1,24 @@
-﻿Public Class Usuarios
-	
+﻿Imports System.Data.SqlClient
+
+Public Class Usuarios
+
     Private conex As New OleDb.OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=senposDB.accdb")
     Private comm As New OleDb.OleDbCommand
     Private dr As OleDb.OleDbDataReader
-    
+    Private conexSql As New SqlConnection("Data Source=USUARIO-PC\SQLEXPRESS;Initial Catalog=Senpos;Integrated Security=True")
+
     Private Sub Registro_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
-
         Try
+            conexSql.Open()
             conex.Open()
-            comm.Connection = conex
-            comm.CommandType = CommandType.Text
-
         Catch ex As Exception
             If Err.Number = 5 Then
                 MessageBox.Show("No se encontro la base de datos", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Me.Close()
             End If
         End Try
+        conexSql.Close()
+        conex.Close()
         getLista()
     End Sub
 
@@ -49,9 +51,9 @@
     Private Sub ButtonRegistro_Click(sender As Object, e As EventArgs) Handles buttonRegistro.Click
         If flCampos() = True Then
             MessageBox.Show("Faltan datos", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        ElseIf flDNI() = False
+        ElseIf flDNI() = False Then
             MessageBox.Show("DNI incorrecto", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        ElseIf flTelefono() = False
+        ElseIf flTelefono() = False Then
             MessageBox.Show("Celular debe contar con 9 digitos", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Else
             setRegistro()
@@ -77,7 +79,7 @@
     End Sub
 
     Private Sub btCancelar_Click(sender As Object, e As EventArgs) Handles btCancelar.Click
-		panelRegistro.hide()
+        panelRegistro.Hide()
     End Sub
 
     Private Sub dgvLista_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvLista.CellContentClick
@@ -110,7 +112,7 @@
             End Try
         End If
     End Sub
-    
+
     Private Function flCampos()
         Dim a As Boolean
 
@@ -133,14 +135,9 @@
         a = Len(tbCeluar.Text) = 9
         Return a
     End Function
-    
-    Sub ButtonSalirClick(sender As Object, e As EventArgs)
-	    Me.Close()
-	    conex.Close()
-	    dgvLista.Rows.Clear()
-    End Sub
-    
-    Sub buttonNewUserClick(sender As Object, e As EventArgs)
-	    panelRegistro.Show()
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Me.Close()
+        conex.Close()
     End Sub
 End Class
